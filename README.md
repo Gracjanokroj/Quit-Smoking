@@ -1,0 +1,3 @@
+To run You need to: 
+- in setings.py in DATABASES add your local database...
+- in order for password reset to work on login page you need to chenge login host user and email host password in setings.py
