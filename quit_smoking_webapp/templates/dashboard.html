@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quit Smoking · Dashboard</title>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: #070a10;
+        color: #e8eefb;
+      }
+      
+      .page {
+        min-height: 100%;
+        padding: 24px 16px;
+        background: radial-gradient(800px 450px at 15% 10%, rgba(55, 210, 130, 0.1), transparent 60%), radial-gradient(700px 450px at 90% 15%, rgba(95, 140, 255, 0.1), transparent 60%), #070a10;
+      }
+      
+      .layout {
+        max-width: 1150px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      
+      .panel {
+        background: #0d1220;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 16px;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    
+      .logo{
+        width:40px;
+        height:40px;
+        border-radius:12px;
+        object-fit:cover;
+        border:1px solid rgba(55,210,130,.35);
+        background:#1c2a22;
+      }
+
+      .brand-text strong {
+        display: block;
+        font-size: 14px;
+      }
+      .brand-text span {
+        display: block;
+        font-size: 12px;
+        color: rgba(232, 238, 251, 0.65);
+        margin-top: 2px;
+      }
+      
+      .nav {
+        padding: 10px;
+      }
+      .nav button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        text-align: left;
+      }
+      .nav button:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .nav button.active {
+        background: rgba(55, 210, 130, 0.12);
+        outline: 1px solid rgba(55, 210, 130, 0.25);
+      }
+      
+      .badge {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(0, 0, 0, 0.2);
+        color: rgba(232, 238, 251, 0.7);
+      }
+      
+      .sidebar-footer {
+        padding: 14px 16px 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(232, 238, 251, 0.65);
+        font-size: 12px;
+      }
+      
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .topbar h1 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .topbar p {
+        margin: 6px 0 0;
+        font-size: 13px;
+        line-height: 1.45;
+        color: rgba(232, 238, 251, 0.7);
+        max-width: 720px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(232, 238, 251, 0.75);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      
+      .content {
+        padding: 16px;
+        min-height: 520px;
+      }
+
+      .loading {
+        display: none;
+        padding: 12px;
+        border: 1px dashed rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        color: rgba(232, 238, 251, 0.65);
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 12px;
+      }
+      .htmx-request .loading {
+        display: block;
+      }
+      
+      @media (max-width: 950px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: relative;
+          top: auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="layout">
+        <aside class="panel sidebar">
+          <div class="brand">
+            <img src="{% static 'no-smoking-44049_1280.svg' %}" alt="Quit Smoking logo" class="logo">
+            <div class="brand-text">
+              <strong>Quit Smoking</strong>
+              <span>panel</span>
+            </div>
+          </div>
+
+          <div class="nav" id="menu">
+            {% if not has_profile %}
+              <button hx-get="{% url 'ui_starting_point' %}" hx-target="#main" hx-push-url="true"><span>Your Starting Point</span><span class="badge">Page</span></button>
+            {% else %}
+              <button class="active" hx-get="{% url 'ui_home' %}" hx-target="#main" hx-push-url="true" hx-trigger="click"><span>Dashboard</span><span class="badge">Page</span></button>
+              <button hx-get="{% url 'ui_daily_log' %}" hx-target="#main" hx-push-url="true"><span>Daily Log</span><span class="badge">Page</span></button>
+
+              <button hx-get="{% url 'ui_profile' %}" hx-target="#main" hx-push-url="true"><span>Profile</span><span class="badge">Page</span></button>
+            {% endif %}
+          </div>
+
+          <div class="sidebar-footer">
+            <div>© 2026 · Gracjan Okroj</div>
+            <a href="{% url 'logout' %}" style="display:block; margin-top:12px; color:#ffbcbc; text-decoration:none;">Log out</a>
+          </div>
+        </aside>
+
+        <main class="panel">
+          <div class="topbar">
+            {% if has_profile %}
+              <div>
+                <h1>Dashboard</h1>
+                <p>On the panel on the left you can travel between different pages.</p>
+              </div>
+            {% else %}
+              <div>
+                <h1>Your starting point</h1>
+                <p>To use this webside you must complete starting point form, to measure your future progress.</p>
+              </div>
+            {% endif %}
+            <div class="pill">
+              User: <strong>{{ request.user.username }}</strong>
+            </div>
+          </div>
+        
+          <div class="content" id="main">
+            <div class="loading">Loading...</div>
+
+            {% if content_template %}
+              {% include content_template %}
+            {% elif has_profile %}
+              {% include 'partials/ui_home.html' %}
+            {% else %}
+              {% include 'partials/ui_starting_point.html' %}
+            {% endif %}
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+     
+      const menu = document.getElementById('menu')
+      menu.addEventListener('click', (e) => {
+        const btn = e.target.closest('button')
+        if (!btn) return
+        menu.querySelectorAll('button').forEach((b) => b.classList.remove('active'))
+        btn.classList.add('active')
+      })
+    </script>
+  </body>
+</html>

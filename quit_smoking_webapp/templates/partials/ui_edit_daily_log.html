@@ -1,0 +1,9 @@
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  
+  <div class="actions">
+    <button type="submit">Edit log</button>
+    <a class="link-btn" href="{% url 'ui_daily_log' %}">Cancel</a>
+  </div>
+</form>

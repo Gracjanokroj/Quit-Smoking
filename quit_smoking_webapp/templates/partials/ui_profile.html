@@ -1,0 +1,20 @@
+<style>
+    .profile-title {
+  font-size: 14px;
+}
+
+form .errorlist {
+  color: #ff0000;
+}
+
+</style>
+
+
+<h2 class="profile-title">Your profile</h2>
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+</form>

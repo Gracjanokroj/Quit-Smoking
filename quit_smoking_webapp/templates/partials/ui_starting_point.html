@@ -1,0 +1,10 @@
+<h2 style="margin:0 0 8px; font-size:14px;">Your Starting Point</h2>
+<p style="margin:0; font-size:13px; line-height:1.55; color:rgba(232,238,251,.70);">
+  Starting point
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+</p>

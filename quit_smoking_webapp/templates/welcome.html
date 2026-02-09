@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quit Smoking App</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(800px 450px at 15% 10%, rgba(55,210,130,.10), transparent 60%),
+        radial-gradient(700px 450px at 90% 15%, rgba(95,140,255,.10), transparent 60%),
+        #070a10;
+      color: #e8eefb;
+    }
+
+    header {
+      background: #0d1220;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      padding: 15px 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #e8eefb;
+    }
+
+    .nav-links a {
+      margin-left: 15px;
+      text-decoration: none;
+      color: rgba(232,238,251,0.75);
+      font-weight: 700;
+    }
+
+    .nav-links a:hover {
+      color: rgba(232,238,251,0.95);
+    }
+
+    .nav-links a.primary {
+      background: #32c978;
+      color: #06130b;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(50,201,120,0.35);
+    }
+
+    .nav-links a.primary:hover {
+      background: #2db66c;
+      border-color: rgba(50,201,120,0.55);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 600px;
+      padding: 90px 20px;
+      text-align: center;
+      background: #070a10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0.85) contrast(1.05);
+      transform: scale(1.02);
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(7,10,16,0.35), rgba(7,10,16,0.85));
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 700px;
+    }
+
+    .hero-content img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 22px;
+      opacity: 0.95;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+    }
+
+    .hero h1 {
+      margin: 0 0 14px;
+      font-size: 34px;
+      color: #e8eefb;
+    }
+
+    .hero p {
+      margin: 0 0 28px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(232,238,251,0.75);
+    }
+
+    .hero .button {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 10px;
+      background: #32c978;
+      border: 1px solid rgba(50,201,120,0.35);
+      color: #06130b;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .hero .button:hover {
+      background: #2db66c;
+      border-color: rgba(50,201,120,0.55);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .feature {
+      background: #0d1220;
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 25px;
+      text-align: center;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    .feature h3 {
+      margin: 0 0 10px;
+      color: #e8eefb;
+    }
+
+    .feature p {
+      margin: 0;
+      color: rgba(232,238,251,0.70);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: rgba(232,238,251,0.60);
+      border-top: 1px solid rgba(255,255,255,0.10);
+      background: #0d1220;
+    }
+
+    @media (max-width: 900px){
+      .features { grid-template-columns: 1fr; }
+      .hero video { object-fit: cover; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">Quit Smoking App</div>
+      <div class="nav-links">
+        {% if is_authenticated == True %}
+          <a href="{% url 'dashboard' %}">Dashboard</a>
+          <a href="{% url 'logout' %}" class="primary">Logout</a>
+        {% endif %}
+
+        {% if is_authenticated == False %}
+          <a href="{% url 'login' %}">Login</a>
+          <a href="{% url 'register' %}" class="primary">Register</a>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <video autoplay muted loop playsinline preload="auto">
+    <source src="{% static 'smoke_bg.mp4' %}" type="video/mp4">
+  </video>
+
+  <div class="hero-content">
+    <img src="{% static 'no-smoking-44049_1280.svg' %}" alt="No smoking icon">
+    <h1>Quit Smoking with Awareness</h1>
+    <p>
+      This web application helps you understand your smoking habits by tracking
+      emotions, situations and daily cigarette consumption.
+    </p>
+    <a href="{% url 'register' %}" class="button">Get Started</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <h3>Daily Tracking</h3>
+    <p>Record how many cigarettes you smoke and in what situations.</p>
+  </div>
+
+  <div class="feature">
+    <h3>Progress Dashboard</h3>
+    <p>Visualise your progress with charts and statistics.</p>
+  </div>
+
+  <div class="feature">
+    <h3>Motivation & Support</h3>
+    <p>Stay motivated with rankings, quotes and a supportive chatbot.</p>
+  </div>
+</section>
+
+<footer>
+  This application does not provide medical advice and does not replace a specialist.
+</footer>
+</body>
+</html>

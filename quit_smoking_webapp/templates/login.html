@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(800px 450px at 15% 10%, rgba(55,210,130,.10), transparent 60%),
+        radial-gradient(700px 450px at 90% 15%, rgba(95,140,255,.10), transparent 60%),
+        #070a10;
+      color: #e8eefb;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+   
+    .bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.35;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(55,210,130,0.10), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(95,140,255,0.10), transparent 45%),
+        radial-gradient(circle at 70% 10%, rgba(255,255,255,0.04), transparent 35%);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: #0d1220;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      position: relative;
+      z-index: 1;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+
+    .top a {
+      color: rgba(232,238,251,0.70);
+      text-decoration: none;
+    }
+
+    .top a:hover {
+      text-decoration: underline;
+      color: rgba(232,238,251,0.90);
+    }
+
+    h1 {
+      margin: 0 0 6px 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #e8eefb;
+    }
+
+    .sub {
+      margin: 0 0 18px 0;
+      color: rgba(232,238,251,0.70);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+   
+    form p {
+      margin: 0 0 14px 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(232,238,251,0.80);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      color: #e8eefb;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgba(50,201,120,0.70);
+      box-shadow: 0 0 0 3px rgba(50,201,120,0.12);
+    }
+
+    .helptext {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: rgba(232,238,251,0.60);
+      line-height: 1.4;
+    }
+
+    .errorlist {
+      margin: 8px 0 0 0;
+      padding-left: 18px;
+      color: #ff9a9a;
+      font-size: 13px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+    }
+
+    .row a {
+      color: rgba(232,238,251,0.85);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      font-size: 13px;
+    }
+
+    .row a:hover {
+      border-bottom-color: rgba(255,255,255,0.35);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 1px solid rgba(50,201,120,0.35);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #32c978;
+      color: #06130b;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2db66c;
+      border-color: rgba(50,201,120,0.55);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: #e8eefb;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.20);
+    }
+
+    .bottom {
+      margin-top: 14px;
+      font-size: 13px;
+      color: rgba(232,238,251,0.70);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .bottom a {
+      color: #e8eefb;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .bottom a:hover {
+      border-bottom-color: rgba(255,255,255,0.35);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="bg" aria-hidden="true"></div>
+
+    <div class="card">
+      <div class="top">
+        <a href="{% url 'welcome' %}">← Home</a>
+        <a href="{% url 'register' %}">Register</a>
+      </div>
+
+      <h1>Login</h1>
+      <p class="sub">Sign in to access your dashboard.</p>
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="row">
+          <a href="{% url 'password-reset' %}">Forgot password?</a>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Sign in</button>
+          <a class="btn-secondary" href="{% url 'welcome' %}">Cancel</a>
+        </div>
+      </form>
+
+      <div class="bottom">
+        <span>No account? <a href="{% url 'register' %}">Create one</a></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

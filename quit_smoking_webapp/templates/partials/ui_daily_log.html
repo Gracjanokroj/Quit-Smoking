@@ -1,0 +1,40 @@
+<h2 style= font-size:14px;>Daily Log</h2>
+<p style="color:rgba(232,238,251,.70);">
+  <table border="1">
+    <tr>
+      <td>Date</td>
+      <td>Cigarettes</td>
+      <td>Actions</td>
+    </tr>
+    {% for log in logs %}
+      <tr>
+        <td>{{ log.created_at }}</td>
+        <td>{{ log.cigarettes_smoked }}</td>
+        <td>
+          <button
+            hx-get="{% url 'ui_daily_log_edit' log.id %}"
+            hx-target="#main"
+            hx-push-url="true">
+            Edit
+          </button>
+
+          <button
+            hx-get="{% url 'ui_daily_log_delete' log.id %}"
+            hx-target="#main"
+            hx-push-url="true">
+            Delete
+          </button>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <a class="link-btn" href="{% url 'dashboard' %}">Dashboard</a>
+  <button class="active"
+        hx-get="{% url 'ui_daily_log_add' %}"
+        hx-target="#main"
+        hx-push-url="true"
+        hx-trigger="click">
+    <span>Add</span>
+</button>
+</p>

@@ -1,0 +1,9 @@
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  
+  <div class="actions">
+    <button type="submit">Add log</button>
+    <a class="link-btn" href="{% url 'welcome' %}">Cancel</a>
+  </div>
+</form>
